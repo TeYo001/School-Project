@@ -42,6 +42,23 @@ def draw_line_pixel(x, y, line: Line):
     else:
         return None
 
+def draw_rect_pixel(x, y, rect):
+    screen_pos = Vec2(x, y).screen_space_vec()
+    x_left_limit = rect.pos.x - rect.width / 2
+    x_right_limit = rect.pos.x + rect.width / 2
+    y_top_limit = rect.pos.y + rect.height / 2
+    y_bottom_limit = rect.pos.y - rect.height / 2
+
+    inside_rect = screen_pos.x >= x_left_limit and screen_pos.x <= x_right_limit
+    inside_rect = inside_rect and screen_pos.y <= y_top_limit and screen_pos.y >= y_bottom_limit
+    if inside_rect:
+        return Pixel(1)
+    else:
+        return None
+
+def draw_rect(rect: Rect):
+    return lambda x, y: draw_rect_pixel(x, y, rect)
+
 def draw_line(line: Line):
     return lambda x, y: draw_line_pixel(x, y, line)
 
